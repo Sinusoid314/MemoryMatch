@@ -1,3 +1,4 @@
+import GameBoard from "@/components/GameBoard";
 import { StyleSheet, Text, View } from "react-native";
 
 const styles = StyleSheet.create({
@@ -15,7 +16,8 @@ const styles = StyleSheet.create({
 export default function Index() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Hello, world!</Text>
+      <Text style={styles.text}>Memory Match</Text>
+      <GameBoard/>
     </View>
   );
 }
