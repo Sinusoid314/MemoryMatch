@@ -15,6 +15,7 @@ const cardColors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange'];
 
 export default function GameBoard() {
   const [cardDeck, updateCardDeck] = useState(createCardDeck);
+  let isPaused = false;
 
   function createCardDeck() {
     const newCardDeck: CardProps[] = [];
@@ -28,7 +29,16 @@ export default function GameBoard() {
   };
 
   function selectCard(cardId: number) {
+    if(isPaused)
+      return;
+
     flipCards([cardId]);
+    isPaused = true;
+
+    setTimeout(() => {
+      flipCards([cardId]);
+      isPaused = false;
+    }, 2000);
   }
 
   function flipCards(cardIds: number[]) {
