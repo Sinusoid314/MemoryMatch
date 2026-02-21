@@ -40,12 +40,7 @@ export default function GameBoard() {
   return (
     <View style={styles.gameBoard}>
       {cardDeck.map((card) => (
-        <Card
-          id={card.id}
-          color={card.color}
-          isFlipped={card.isFlipped}
-          selectCardCallback={selectCard}
-        />
+        <Card {...card} />
       ))}
     </View>
   );
