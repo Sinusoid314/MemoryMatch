@@ -5,6 +5,7 @@ import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
   gameBoard: {
+    flex: 1,
     backgroundColor: 'lightbrown',
     borderStyle: 'solid'
   }
@@ -23,7 +24,7 @@ export default function GameBoard() {
       newCardDeck.push({id: newCardDeck.length, color: color, isFlipped: false, selectCardCallback: selectCard});
     });
 
-    return newCardDeck.sort(() => Math.random() - 0.5);
+    return newCardDeck.toSorted(() => Math.random() - 0.5);
   };
 
   function selectCard(cardId: number) {
@@ -31,10 +32,10 @@ export default function GameBoard() {
   }
 
   function flipCards(cardIds: number[]) {
-    updateCardDeck(
-      cardDeck.map(card => {
-        if(cardIds.includes(card.id)) 
-          return { ...card, isFlipped: !card.isFlipped};
+    updateCardDeck(oldCardDeck => 
+      oldCardDeck.map(card => {
+        if(cardIds.includes(card.id))
+          return {...card, isFlipped: !card.isFlipped};
         else
           return card;
       })
@@ -43,8 +44,8 @@ export default function GameBoard() {
 
   return (
     <View style={styles.gameBoard}>
-      {cardDeck.map((card) => (
-        <Card {...card} />
+      {cardDeck.map(card => (
+        <Card key={card.id} {...card} />
       ))}
     </View>
   );

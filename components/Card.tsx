@@ -1,9 +1,10 @@
 import React from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 const styles = StyleSheet.create({
   card: {
-    borderStyle: 'solid'
+    borderStyle: 'solid',
+    margin: 5
   }
 });
 
@@ -25,7 +26,8 @@ export default function Card(props: CardProps) {
   return (
     <View style={[styles.card, {backgroundColor: color}]}>
       <Pressable onPress={onPressHandler}>
-        Card
+        <Text>{props.id}</Text>
+        <Text>{String(props.isFlipped)}</Text>
       </Pressable>
     </View>
   );
