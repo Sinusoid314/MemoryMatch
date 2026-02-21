@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   }
 });
 
-type CardProps = {
+export type CardProps = {
   id: number;
   color: any;
   isFlipped: boolean;
@@ -18,7 +18,7 @@ export default function Card(props: CardProps) {
 
   const color = props.isFlipped ? props.color : 'white';
 
-  const onPressHandler = () => {
+  function onPressHandler() {
     props.selectCardCallback(props.id);
   };
 

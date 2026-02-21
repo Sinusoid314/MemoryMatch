@@ -1,3 +1,4 @@
+import type { CardProps } from "@/components/Card";
 import Card from "@/components/Card";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
@@ -9,29 +10,23 @@ const styles = StyleSheet.create({
   }
 });
 
-type CardData = {
-  id: number;
-  color: any;
-  isFlipped: boolean;
-};
-
 const cardColors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange'];
-
-const createCardDeck = () => {
-  const newCardDeck: CardData[] = [];
-
-  cardColors.forEach((color) => {
-    newCardDeck.push({id: newCardDeck.length, color: color, isFlipped: false});
-    newCardDeck.push({id: newCardDeck.length, color: color, isFlipped: false});
-  });
-
-  return newCardDeck.sort(() => Math.random() - 0.5);
-};
 
 export default function GameBoard() {
   const [cardDeck, updateCardDeck] = useState(createCardDeck);
 
-  const selectCard = (cardId: number) => {
+  function createCardDeck() {
+    const newCardDeck: CardProps[] = [];
+
+    cardColors.forEach((color) => {
+      newCardDeck.push({id: newCardDeck.length, color: color, isFlipped: false, selectCardCallback: selectCard});
+      newCardDeck.push({id: newCardDeck.length, color: color, isFlipped: false, selectCardCallback: selectCard});
+    });
+
+    return newCardDeck.sort(() => Math.random() - 0.5);
+  };
+
+  function selectCard(cardId: number) {
     updateCardDeck(
       cardDeck.map(card => {
         if(card.id === cardId) 
