@@ -27,9 +27,13 @@ export default function GameBoard() {
   };
 
   function selectCard(cardId: number) {
+    flipCards([cardId]);
+  }
+
+  function flipCards(cardIds: number[]) {
     updateCardDeck(
       cardDeck.map(card => {
-        if(card.id === cardId) 
+        if(cardIds.includes(card.id)) 
           return { ...card, isFlipped: !card.isFlipped};
         else
           return card;
