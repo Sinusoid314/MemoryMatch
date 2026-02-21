@@ -1,6 +1,6 @@
 import type { CardProps } from "@/components/Card";
 import Card from "@/components/Card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
@@ -15,7 +15,8 @@ const cardColors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange'];
 
 export default function GameBoard() {
   const [cardDeck, updateCardDeck] = useState(createCardDeck);
-  let isPaused = false;
+  let isPaused: boolean = false;
+  let pauseTimeoutId: number = 0;
 
   function createCardDeck() {
     const newCardDeck: CardProps[] = [];
@@ -35,7 +36,7 @@ export default function GameBoard() {
     flipCards([cardId]);
     isPaused = true;
 
-    setTimeout(() => {
+    pauseTimeoutId = setTimeout(() => {
       flipCards([cardId]);
       isPaused = false;
     }, 2000);
@@ -51,6 +52,10 @@ export default function GameBoard() {
       })
     );
   }
+
+  useEffect(() => {
+    return () => clearTimeout(pauseTimeoutId);
+  }, []);  
 
   return (
     <View style={styles.gameBoard}>
