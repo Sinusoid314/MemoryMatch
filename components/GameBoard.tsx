@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
 
 const cardColors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange'];
 let isPaused: boolean = false;
+const pauseDuration = 1500;
 let pauseTimeoutId: number = 0;
 
 export default function GameBoard() {
@@ -39,7 +40,7 @@ export default function GameBoard() {
     pauseTimeoutId = setTimeout(() => {
       flipCards([cardId]);
       isPaused = false;
-    }, 2000);
+    }, pauseDuration);
   }
 
   function flipCards(cardIds: number[]) {
