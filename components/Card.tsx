@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 const styles = StyleSheet.create({
   card: {
+    flex: 1,
     borderStyle: 'solid',
     margin: 5
   }

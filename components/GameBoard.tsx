@@ -1,7 +1,7 @@
 import type { CardProps } from "@/components/Card";
 import Card from "@/components/Card";
 import { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { FlatList, ListRenderItem, ListRenderItemInfo, StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
   gameBoard: {
@@ -55,8 +55,24 @@ export default function GameBoard() {
 
   useEffect(() => {
     return () => clearTimeout(pauseTimeoutId);
-  }, []);  
+  }, []);
 
+  const cardRenderItem: ListRenderItem<CardProps> = ({item: card}: ListRenderItemInfo<CardProps>) => (
+    <Card {...card} />
+  );
+
+  return (
+    <View style={styles.gameBoard}>
+      <FlatList
+        data={cardDeck}
+        renderItem={cardRenderItem}
+        keyExtractor={(card: CardProps) => String(card.id)}
+        numColumns={3}
+      />
+    </View>
+  );
+
+/*
   return (
     <View style={styles.gameBoard}>
       {cardDeck.map(card => (
@@ -64,4 +80,5 @@ export default function GameBoard() {
       ))}
     </View>
   );
+*/
 }
