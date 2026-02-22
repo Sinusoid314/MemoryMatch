@@ -12,11 +12,11 @@ const styles = StyleSheet.create({
 });
 
 const cardColors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange'];
+let isPaused: boolean = false;
+let pauseTimeoutId: number = 0;
 
 export default function GameBoard() {
   const [cardDeck, updateCardDeck] = useState(createCardDeck);
-  let isPaused: boolean = false;
-  let pauseTimeoutId: number = 0;
 
   function createCardDeck() {
     const newCardDeck: CardProps[] = [];
