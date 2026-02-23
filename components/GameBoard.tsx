@@ -12,19 +12,21 @@ const styles = StyleSheet.create({
 });
 
 const cardColors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange'];
-let isPaused: boolean = false;
+const selectionsPerTry = 2;
 const pauseDuration = 1500;
+let isPaused: boolean = false;
 let pauseTimeoutId: number = 0;
 
 export default function GameBoard() {
   const [cardDeck, updateCardDeck] = useState(createCardDeck);
+  const [selectedCardIds, setSelectedCardIds] = useState([]);
 
   function createCardDeck() {
     const newCardDeck: CardProps[] = [];
 
     cardColors.forEach((color) => {
-      newCardDeck.push({id: newCardDeck.length, color: color, isFlipped: false, selectCardCallback: selectCard});
-      newCardDeck.push({id: newCardDeck.length, color: color, isFlipped: false, selectCardCallback: selectCard});
+      for(let n = 0; n < selectionsPerTry; n++)
+        newCardDeck.push({id: newCardDeck.length, color: color, isFlipped: false, selectCardCallback: selectCard});
     });
 
     return newCardDeck.toSorted(() => Math.random() - 0.5);
