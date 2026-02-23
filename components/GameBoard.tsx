@@ -13,8 +13,13 @@ const styles = StyleSheet.create({
 const cardColors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange'];
 const selectionsPerTry = 2;
 const timeoutDuration = 1500;
+const GAME_STATE_PLAYING = 1;
+const GAME_STATE_DONE = 2;
+const GAME_STATE_TRY_SUCCESS = 3;
+const GAME_STATE_TRY_FAIL = 4;
 
 export default function GameBoard() {
+  const [gameState, setGameState] = useState(GAME_STATE_PLAYING);
   const [cardDeck, updateCardDeck] = useState(createCardDeck);
   const selectedCardIdsRef = useRef<number[]>([]);
   const timeoutIdRef = useRef(0);
