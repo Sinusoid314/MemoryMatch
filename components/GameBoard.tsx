@@ -14,12 +14,13 @@ const styles = StyleSheet.create({
 const cardColors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange'];
 const selectionsPerTry = 2;
 const pauseDuration = 1500;
-let isPaused: boolean = false;
+let isPaused = false;
 let pauseTimeoutId: number = 0;
 
 export default function GameBoard() {
   const [cardDeck, updateCardDeck] = useState(createCardDeck);
   const [selectedCardIds, setSelectedCardIds] = useState([]);
+  //const [isPaused, setIsPaused] = useState(false);
 
   function createCardDeck() {
     const newCardDeck: CardProps[] = [];
@@ -38,10 +39,12 @@ export default function GameBoard() {
 
     flipCards([cardId]);
     isPaused = true;
+    //setIsPaused((prevIsPaused) => !prevIsPaused);
 
     pauseTimeoutId = setTimeout(() => {
       flipCards([cardId]);
       isPaused = false;
+      //setIsPaused((prevIsPaused) => !prevIsPaused);
     }, pauseDuration);
   }
 
