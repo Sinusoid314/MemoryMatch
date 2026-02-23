@@ -16,7 +16,7 @@ const timeoutDuration = 1500;
 
 export default function GameBoard() {
   const [cardDeck, updateCardDeck] = useState(createCardDeck);
-  const [selectedCardIds, setSelectedCardIds] = useState([]);
+  const selectedCardIdsRef = useRef<number[]>([]);
   const timeoutIdRef = useRef(0);
 
   function createCardDeck() {
@@ -34,10 +34,21 @@ export default function GameBoard() {
     if(timeoutIdRef.current > 0)
       return;
 
-    flipCards([cardId]);
+    if(selectedCardIdsRef.current.includes(cardId))
+      return;
+
+    if(selectedCardIdsRef.current.length < selectionsPerTry)
+    {
+      flipCards([cardId]);
+      selectedCardIdsRef.current.push(cardId);
+    }
+
+    if(selectedCardIdsRef.current.length < selectionsPerTry)
+      return;
 
     timeoutIdRef.current = setTimeout(() => {
-      flipCards([cardId]);
+      flipCards(selectedCardIdsRef.current);
+      selectedCardIdsRef.current = [];
       timeoutIdRef.current = 0;
     }, timeoutDuration);
   }
