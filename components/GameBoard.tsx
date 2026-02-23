@@ -6,6 +6,7 @@ import { FlatList, ListRenderItem, ListRenderItemInfo, StyleSheet, View } from "
 const styles = StyleSheet.create({
   gameBoard: {
     flex: 1,
+    backgroundColor: 'darkbrown',
     borderStyle: 'solid'
   }
 });
@@ -39,7 +40,7 @@ export default function GameBoard() {
     if(timeoutIdRef.current > 0)
       return;
 
-    if(selectedCardIdsRef.current.includes(cardId))
+    if(cardDeck.find((card) => card.id === cardId)?.isFlipped)
       return;
 
     if(selectedCardIdsRef.current.length < selectionsPerTry)
@@ -51,11 +52,9 @@ export default function GameBoard() {
     if(selectedCardIdsRef.current.length < selectionsPerTry)
       return;
 
-    timeoutIdRef.current = setTimeout(() => {
-      flipCards(selectedCardIdsRef.current);
-      selectedCardIdsRef.current = [];
-      timeoutIdRef.current = 0;
-    }, timeoutDuration);
+    compareSelectedCards();
+
+    timeoutIdRef.current = setTimeout(onTryDone, timeoutDuration);
   }
 
   function flipCards(cardIds: number[]) {
@@ -69,6 +68,38 @@ export default function GameBoard() {
     );
   }
 
+  function compareSelectedCards()
+  {
+    const cardsMatch = cardDeck.filter((card) => {
+      if(selectedCardIdsRef.current.includes(card.id))
+        return true;
+      else
+        return false;
+    }).every((card, cardIndex, selectedCards) => {
+      return card.color === selectedCards[0].color;
+    });
+
+    if(cardsMatch) {
+      console.log("success");
+      setGameState(GAME_STATE_TRY_SUCCESS);
+    }
+    else {
+      console.log("fail");
+      setGameState(GAME_STATE_TRY_FAIL);
+    }
+  }
+
+  function onTryDone()
+  {
+    if(gameState === GAME_STATE_TRY_FAIL)
+      flipCards(selectedCardIdsRef.current);
+
+    selectedCardIdsRef.current = [];
+    timeoutIdRef.current = 0;
+    
+    setGameState(GAME_STATE_PLAYING);
+  }
+
   useEffect(() => {
     return () => clearTimeout(timeoutIdRef.current);
   }, []);
@@ -78,7 +109,10 @@ export default function GameBoard() {
   );
 
   return (
-    <View style={styles.gameBoard}>
+    <View style={[
+      styles.gameBoard, 
+      {backgroundColor: (gameState === GAME_STATE_TRY_SUCCESS) ? 'green' : (gameState === GAME_STATE_TRY_FAIL) ? 'red' : 'darkbrown'}
+    ]}>
       <FlatList
         data={cardDeck}
         renderItem={cardRenderItem}
