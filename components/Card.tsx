@@ -22,7 +22,7 @@ export default function Card(props: CardProps) {
 
   function onPressHandler() {
     props.selectCardCallback(props.id);
-  };
+  }
 
   return (
     <View style={[styles.card, {backgroundColor: color}]}>
