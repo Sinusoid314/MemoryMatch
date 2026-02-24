@@ -21,9 +21,14 @@ const GAME_STATE_TRY_FAIL = 4;
 
 export default function GameBoard() {
   const [gameState, setGameState] = useState(GAME_STATE_PLAYING);
+  const gameStateRef = useRef(gameState);
   const [cardDeck, updateCardDeck] = useState(createCardDeck);
   const selectedCardIdsRef = useRef<number[]>([]);
   const timeoutIdRef = useRef(0);
+
+  useEffect(() => {
+    gameStateRef.current = gameState;
+  }, [gameState]);
 
   function createCardDeck() {
     const newCardDeck: CardProps[] = [];
@@ -40,6 +45,7 @@ export default function GameBoard() {
     if(timeoutIdRef.current > 0)
       return;
 
+    console.log(cardId + "  -  " + cardDeck.find((card) => card.id === cardId)?.isFlipped);
     if(cardDeck.find((card) => card.id === cardId)?.isFlipped)
       return;
 
@@ -79,14 +85,10 @@ export default function GameBoard() {
       return card.color === selectedCards[0].color;
     });
 
-    if(cardsMatch) {
-      console.log("success");
+    if(cardsMatch)
       setGameState(GAME_STATE_TRY_SUCCESS);
-    }
-    else {
-      console.log("fail");
+    else
       setGameState(GAME_STATE_TRY_FAIL);
-    }
   }
 
   function onTryDone()
@@ -104,6 +106,8 @@ export default function GameBoard() {
     return () => clearTimeout(timeoutIdRef.current);
   }, []);
 
+  const color = (gameState === GAME_STATE_TRY_SUCCESS) ? 'green' : (gameState === GAME_STATE_TRY_FAIL) ? 'red' : 'darkbrown';
+
   const cardRenderItem: ListRenderItem<CardProps> = ({item: card}: ListRenderItemInfo<CardProps>) => (
     <Card {...card} />
   );
@@ -111,7 +115,7 @@ export default function GameBoard() {
   return (
     <View style={[
       styles.gameBoard, 
-      {backgroundColor: (gameState === GAME_STATE_TRY_SUCCESS) ? 'green' : (gameState === GAME_STATE_TRY_FAIL) ? 'red' : 'darkbrown'}
+      {backgroundColor: color}
     ]}>
       <FlatList
         data={cardDeck}
