@@ -27,6 +27,8 @@ export default function GameBoard() {
   const timeoutIdRef = useRef(0);
 
   useEffect(() => {
+    console.log("STATE =    " + gameState);
+    console.log("STATEREF = " + gameStateRef.current);
     gameStateRef.current = gameState;
   }, [gameState]);
 
@@ -45,7 +47,6 @@ export default function GameBoard() {
     if(timeoutIdRef.current > 0)
       return;
 
-    console.log(cardId + "  -  " + cardDeck.find((card) => card.id === cardId)?.isFlipped);
     if(cardDeck.find((card) => card.id === cardId)?.isFlipped)
       return;
 
@@ -61,17 +62,6 @@ export default function GameBoard() {
     compareSelectedCards();
 
     timeoutIdRef.current = setTimeout(onTryDone, timeoutDuration);
-  }
-
-  function flipCards(cardIds: number[]) {
-    updateCardDeck(oldCardDeck => 
-      oldCardDeck.map(card => {
-        if(cardIds.includes(card.id))
-          return {...card, isFlipped: !card.isFlipped};
-        else
-          return card;
-      })
-    );
   }
 
   function compareSelectedCards()
@@ -93,8 +83,10 @@ export default function GameBoard() {
 
   function onTryDone()
   {
-    if(gameState === GAME_STATE_TRY_FAIL)
+    if(gameStateRef.current === GAME_STATE_TRY_FAIL) {
+      console.log("TRY FAIL");
       flipCards(selectedCardIdsRef.current);
+    }
 
     selectedCardIdsRef.current = [];
     timeoutIdRef.current = 0;
@@ -102,11 +94,34 @@ export default function GameBoard() {
     setGameState(GAME_STATE_PLAYING);
   }
 
+  function flipCards(cardIds: number[]) {
+    updateCardDeck(oldCardDeck => 
+      oldCardDeck.map(card => {
+        if(cardIds.includes(card.id))
+          return {...card, isFlipped: !card.isFlipped};
+        else
+          return card;
+      })
+    );
+  }
+
   useEffect(() => {
     return () => clearTimeout(timeoutIdRef.current);
   }, []);
 
-  const color = (gameState === GAME_STATE_TRY_SUCCESS) ? 'green' : (gameState === GAME_STATE_TRY_FAIL) ? 'red' : 'darkbrown';
+  const color = (() => {
+    switch(gameStateRef.current)
+    {
+      case GAME_STATE_PLAYING:
+        return 'tan';
+      case GAME_STATE_DONE:
+        return 'lightgray';
+      case GAME_STATE_TRY_SUCCESS:
+        return 'green';
+      case GAME_STATE_TRY_FAIL:
+        return 'red';
+    }
+  })();
 
   const cardRenderItem: ListRenderItem<CardProps> = ({item: card}: ListRenderItemInfo<CardProps>) => (
     <Card {...card} />
