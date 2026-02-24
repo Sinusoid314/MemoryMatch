@@ -29,7 +29,11 @@ export default function GameBoard() {
   useEffect(() => {
     console.log("STATE =    " + gameState);
     console.log("STATEREF = " + gameStateRef.current);
+
     gameStateRef.current = gameState;
+
+    if(gameState === GAME_STATE_TRY_FAIL || gameState === GAME_STATE_TRY_SUCCESS)
+      timeoutIdRef.current = setTimeout(onTryDone, timeoutDuration);
   }, [gameState]);
 
   function createCardDeck() {
@@ -61,7 +65,7 @@ export default function GameBoard() {
 
     compareSelectedCards();
 
-    timeoutIdRef.current = setTimeout(onTryDone, timeoutDuration);
+    //timeoutIdRef.current = setTimeout(onTryDone, timeoutDuration);
   }
 
   function compareSelectedCards()
