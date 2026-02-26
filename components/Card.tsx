@@ -1,6 +1,7 @@
 import React from "react";
 import { Image, Pressable, StyleSheet } from "react-native";
 
+
 const styles = StyleSheet.create({
   card: {
     flex: 1,
@@ -13,6 +14,18 @@ const styles = StyleSheet.create({
   }
 });
 
+
+const cardBackImage: number = require('@/assets/images/card-back.png');
+export const cardFaceImages: number[] = [
+  require('@/assets/images/star.png'),
+  require('@/assets/images/square.png'),
+  require('@/assets/images/circle.png'),
+  require('@/assets/images/triangle.png'),
+  require('@/assets/images/diamond.png'),
+  require('@/assets/images/heart.png')
+];
+
+
 export type CardProps = {
   id: number;
   image: any;
@@ -21,9 +34,10 @@ export type CardProps = {
   onCardPressCallback: (cardId: number) => void;
 };
 
+
 export default function Card(props: CardProps) {
 
-  const image = props.isFlipped ? props.image : require('@/assets/images/card-back.png');
+  const image = props.isFlipped ? props.image : cardBackImage;
   const borderColor = props.isSelected ? 'aqua' : 'white';
   //const onPress = !props.isFlipped ? onPressHandler : undefined;
 

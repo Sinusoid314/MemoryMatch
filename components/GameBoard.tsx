@@ -1,5 +1,5 @@
 import type { CardProps } from "@/components/Card";
-import Card from "@/components/Card";
+import Card, { cardFaceImages } from "@/components/Card";
 import { useEffect, useRef, useState } from "react";
 import { FlatList, ListRenderItem, ListRenderItemInfo, StyleSheet, View } from "react-native";
 
@@ -23,14 +23,6 @@ const styles = StyleSheet.create({
 });
 
 
-const cardImages = [
-  require('@/assets/images/star.png'),
-  require('@/assets/images/square.png'),
-  require('@/assets/images/circle.png'),
-  require('@/assets/images/triangle.png'),
-  require('@/assets/images/diamond.png'),
-  require('@/assets/images/heart.png')
-];
 const maxSelections = 2;
 const timeoutDuration = 1500;
 const RESULT_PENDING = "pending";
@@ -70,7 +62,7 @@ export default function GameBoard() {
   function createCardDeck() {
     const newCardDeck: CardProps[] = [];
 
-    cardImages.forEach((image) => {
+    cardFaceImages.forEach((image) => {
       for(let n = 0; n < maxSelections; n++)
         newCardDeck.push({id: newCardDeck.length, image: image, isFlipped: false, isSelected: false, onCardPressCallback: onCardPress});
     });
