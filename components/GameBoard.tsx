@@ -24,12 +24,13 @@ const styles = StyleSheet.create({
 
 
 const cardImages = [
-  './assets/images/star.png',
-  './assets/images/square.png',
-  './assets/images/circle.png',
-  './assets/images/triangle.png',
-  './assets/images/diamond.png',
-  './assets/images/heart.png'];
+  require('@/assets/images/star.png'),
+  require('@/assets/images/square.png'),
+  require('@/assets/images/circle.png'),
+  require('@/assets/images/triangle.png'),
+  require('@/assets/images/diamond.png'),
+  require('@/assets/images/heart.png')
+];
 const maxSelections = 2;
 const timeoutDuration = 1500;
 const RESULT_PENDING = "pending";
