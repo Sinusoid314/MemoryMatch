@@ -23,7 +23,13 @@ const styles = StyleSheet.create({
 });
 
 
-const cardColors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange'];
+const cardImages = [
+  './assets/images/star.png',
+  './assets/images/square.png',
+  './assets/images/circle.png',
+  './assets/images/triangle.png',
+  './assets/images/diamond.png',
+  './assets/images/heart.png'];
 const maxSelections = 2;
 const timeoutDuration = 1500;
 const RESULT_PENDING = "pending";
@@ -63,9 +69,9 @@ export default function GameBoard() {
   function createCardDeck() {
     const newCardDeck: CardProps[] = [];
 
-    cardColors.forEach((color) => {
+    cardImages.forEach((image) => {
       for(let n = 0; n < maxSelections; n++)
-        newCardDeck.push({id: newCardDeck.length, color: color, isFlipped: false, isSelected: false, onCardPressCallback: onCardPress});
+        newCardDeck.push({id: newCardDeck.length, image: image, isFlipped: false, isSelected: false, onCardPressCallback: onCardPress});
     });
 
     return [...newCardDeck].sort(() => Math.random() - 0.5);
@@ -93,7 +99,7 @@ export default function GameBoard() {
       else
         return false;
     }).every((card, cardIndex, selectedCards) => {
-      return card.color === selectedCards[0].color;
+      return card.image === selectedCards[0].image;
     });
 
     if(cardsMatch)
