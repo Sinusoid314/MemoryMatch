@@ -4,6 +4,8 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 const styles = StyleSheet.create({
   card: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 2,
     margin: 5
   }
@@ -28,10 +30,10 @@ export default function Card(props: CardProps) {
   }
 
   return (
-    <Pressable onPress={onPress}>
-      <View style={[styles.card, {backgroundColor: color}, {borderColor: borderColor}]}>
+    <View style={[styles.card, {backgroundColor: color}, {borderColor: borderColor}]}>
+      <Pressable onPress={onPress}>
         <Text>Card</Text>
-      </View>
-    </Pressable>
+      </Pressable>
+    </View>
   );
 }

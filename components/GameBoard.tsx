@@ -7,10 +7,18 @@ import { FlatList, ListRenderItem, ListRenderItemInfo, StyleSheet, View } from "
 const styles = StyleSheet.create({
   gameBoard: {
     flex: 1,
-    borderStyle: 'solid'
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    borderStyle: 'solid',
   },
   cardList: {
-    flex: 1
+    flex: 1,
+  },
+  cardListContent: {
+    flexGrow: 1
+  },
+  cardListColumnWrapper: {
   }
 });
 
@@ -28,7 +36,7 @@ export default function GameBoard() {
   const [result, setResult] = useState(RESULT_PENDING);
   const selectedCardIdsRef = useRef<number[]>([]);
   const timeoutIdRef = useRef(0);
-  let backgroundColor: any;
+  let gameBoardColor: any;
   let cardRenderItem: ListRenderItem<CardProps>;
 
 
@@ -130,16 +138,18 @@ export default function GameBoard() {
   }
 
 
-  backgroundColor = (result===RESULT_SUCCESS) ? 'palegreen' : ((result===RESULT_FAIL) ? 'salmon' : 'tan');
+  gameBoardColor = (result===RESULT_SUCCESS) ? 'palegreen' : ((result===RESULT_FAIL) ? 'salmon' : 'tan');
 
   cardRenderItem = ({item: card}: ListRenderItemInfo<CardProps>) => (
     <Card {...card} />
   );
  
   return (
-    <View style={[styles.gameBoard, {backgroundColor: backgroundColor}]}>
+    <View style={[styles.gameBoard, {backgroundColor: gameBoardColor}]}>
       <FlatList
         style={styles.cardList}
+        contentContainerStyle={styles.cardListContent}
+        columnWrapperStyle={styles.cardListColumnWrapper}
         data={cardDeck}
         renderItem={cardRenderItem}
         keyExtractor={(card: CardProps) => String(card.id)}
