@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 
 const styles = StyleSheet.create({
   card: {
@@ -23,17 +23,15 @@ export default function Card(props: CardProps) {
 
   const color = props.isFlipped ? props.color : 'white';
   const borderColor = props.isSelected ? 'aqua' : 'white';
-  const onPress = !props.isFlipped ? onPressHandler : undefined;
+  //const onPress = !props.isFlipped ? onPressHandler : undefined;
 
   function onPressHandler() {
     props.onCardPressCallback(props.id);
   }
 
   return (
-    <View style={[styles.card, {backgroundColor: color}, {borderColor: borderColor}]}>
-      <Pressable onPress={onPress}>
-        <Text>Card</Text>
-      </Pressable>
-    </View>
+    <Pressable onPress={onPressHandler} disabled={props.isFlipped} style={[styles.card, {backgroundColor: color}, {borderColor: borderColor}]}>
+      <Text>Card</Text>
+    </Pressable>
   );
 }
