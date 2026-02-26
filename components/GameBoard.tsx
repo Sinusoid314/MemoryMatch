@@ -69,7 +69,7 @@ export default function GameBoard() {
       return;
 
     flipCards([cardId]);
-    selectCard(cardId);
+    selectCard(cardId, selectedCardIdsRef.current);
    
     if(selectedCardIdsRef.current.length < maxSelections)
       return;
@@ -107,8 +107,8 @@ export default function GameBoard() {
   }
 
 
-  function selectCard(cardId: number) {
-    selectedCardIdsRef.current.push(cardId);
+  function selectCard(cardId: number, cardIds: number[]) {
+    cardIds.push(cardId);
     updateCardDeck(oldCardDeck => 
       oldCardDeck.map(card => {
         if(cardId === card.id)
