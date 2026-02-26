@@ -60,7 +60,7 @@ export default function GameBoard() {
         newCardDeck.push({id: newCardDeck.length, color: color, isFlipped: false, isSelected: false, onCardPressCallback: onCardPress});
     });
 
-    return newCardDeck.toSorted(() => Math.random() - 0.5);
+    return [...newCardDeck].sort(() => Math.random() - 0.5);
   }
 
 
