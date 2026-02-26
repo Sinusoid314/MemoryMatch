@@ -8,6 +8,9 @@ const styles = StyleSheet.create({
   gameBoard: {
     flex: 1,
     borderStyle: 'solid'
+  },
+  cardList: {
+    flex: 1
   }
 });
 
@@ -136,6 +139,7 @@ export default function GameBoard() {
   return (
     <View style={[styles.gameBoard, {backgroundColor: backgroundColor}]}>
       <FlatList
+        style={styles.cardList}
         data={cardDeck}
         renderItem={cardRenderItem}
         keyExtractor={(card: CardProps) => String(card.id)}
