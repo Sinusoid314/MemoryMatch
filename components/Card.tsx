@@ -30,7 +30,11 @@ export default function Card(props: CardProps) {
   }
 
   return (
-    <Pressable onPress={onPressHandler} disabled={props.isFlipped} style={[styles.card, {backgroundColor: color}, {borderColor: borderColor}]}>
+    <Pressable
+      onPress={onPressHandler}
+      disabled={props.isFlipped}
+      style={[styles.card, {backgroundColor: color}, {borderColor: borderColor}]}
+    >
       <Text>Card</Text>
     </Pressable>
   );
