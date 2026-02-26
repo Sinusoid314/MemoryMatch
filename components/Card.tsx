@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 2,
-    margin: 5
+    borderWidth: 3,
+    margin: 1
   },
   cardImage: {
   }
