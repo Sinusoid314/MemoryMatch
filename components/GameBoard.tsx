@@ -1,7 +1,7 @@
 import type { CardProps } from "@/components/Card";
 import Card, { cardFaceImages } from "@/components/Card";
 import { useEffect, useRef, useState } from "react";
-import { FlatList, ListRenderItem, ListRenderItemInfo, StyleSheet, View } from "react-native";
+import { FlatList, ListRenderItem, ListRenderItemInfo, StyleSheet, View, useWindowDimensions } from "react-native";
 
 
 const styles = StyleSheet.create({
@@ -28,15 +28,17 @@ const timeoutDuration = 1500;
 const RESULT_PENDING = "pending";
 const RESULT_SUCCESS = "success";
 const RESULT_FAIL = "fail";
-
+const cardListColumns = 3;
 
 export default function GameBoard() {
   const [cardDeck, updateCardDeck] = useState(createCardDeck);
   const [result, setResult] = useState(RESULT_PENDING);
   const selectedCardIdsRef = useRef<number[]>([]);
   const timeoutIdRef = useRef(0);
-  let gameBoardColor: any;
+  const screenWidth = useWindowDimensions().width;
+  const cardRenderItemSize = screenWidth / cardListColumns;
   let cardRenderItem: ListRenderItem<CardProps>;
+  let gameBoardColor: any;
 
 
   useEffect(() => {
@@ -140,7 +142,9 @@ export default function GameBoard() {
   gameBoardColor = (result===RESULT_SUCCESS) ? 'palegreen' : ((result===RESULT_FAIL) ? 'salmon' : 'tan');
 
   cardRenderItem = ({item: card}: ListRenderItemInfo<CardProps>) => (
-    <Card {...card} />
+    <View style={{width: cardRenderItemSize, height: cardRenderItemSize}}>
+      <Card {...card} />
+    </View>
   );
  
   return (
@@ -149,10 +153,10 @@ export default function GameBoard() {
         style={styles.cardList}
         contentContainerStyle={styles.cardListContent}
         columnWrapperStyle={styles.cardListColumnWrapper}
-        data={cardDeck}
-        renderItem={cardRenderItem}
-        keyExtractor={(card: CardProps) => String(card.id)}
         numColumns={3}
+        renderItem={cardRenderItem}
+        data={cardDeck}
+        keyExtractor={(card: CardProps) => String(card.id)}
       />
     </View>
   );

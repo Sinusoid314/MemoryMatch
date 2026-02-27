@@ -8,9 +8,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 3,
-    margin: 1
+    margin: 1,
+    transform: 'rotateY(180deg)'
   },
   cardImage: {
+    flex: 1,
+    width: '100%'
   }
 });
 
@@ -51,7 +54,7 @@ export default function Card(props: CardProps) {
       disabled={props.isFlipped}
       style={[styles.card, {borderColor: borderColor}]}
     >
-      <Image source={image} style={styles.card}/>
+      <Image source={image} style={styles.cardImage}/>
     </Pressable>
   );
 }
