@@ -1,1 +1,1 @@
-- Fix bug with card grid being squished when running on Android mobile.
+- Fix bug with card grid height not fitting into the device's screen height.
