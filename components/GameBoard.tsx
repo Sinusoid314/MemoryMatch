@@ -18,7 +18,7 @@ export default function GameBoard() {
   const selectedCardIdsRef = useRef<number[]>([]);
   const timeoutIdRef = useRef(0);
   const screenWidth = useWindowDimensions().width;
-  const cardRenderItemSize = screenWidth / cardListColumns;
+  //const cardRenderItemSize = screenWidth / cardListColumns;
   let cardRenderItem: ListRenderItem<CardProps>;
   let gameBoardColor: any;
 
@@ -124,7 +124,8 @@ export default function GameBoard() {
   gameBoardColor = (result===RESULT_SUCCESS) ? 'palegreen' : ((result===RESULT_FAIL) ? 'salmon' : 'tan');
 
   cardRenderItem = ({item: card}: ListRenderItemInfo<CardProps>) => (
-    <View style={{width: cardRenderItemSize, height: cardRenderItemSize}}>
+    //style={{width: cardRenderItemSize, height: cardRenderItemSize}}>
+    <View> 
       <Card {...card} />
     </View>
   );
@@ -134,7 +135,6 @@ export default function GameBoard() {
       <FlatList
         style={styles.cardList}
         contentContainerStyle={styles.cardListContent}
-        columnWrapperStyle={styles.cardListColumnWrapper}
         numColumns={3}
         renderItem={cardRenderItem}
         data={cardDeck}
@@ -155,10 +155,12 @@ const styles = StyleSheet.create({
   },
   cardList: {
     flex: 1,
+    width: "100%",
+    backgroundColor: "red"
   },
   cardListContent: {
-    flexGrow: 1
-  },
-  cardListColumnWrapper: {
+    flex: 1,
+    width: "100%",
+    backgroundColor: "blue"
   }
 });

@@ -8,8 +8,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 3,
-    margin: 1,
-    transform: 'rotateY(180deg)'
+    margin: 1
   },
   cardImage: {
     flex: 1,
