@@ -4,31 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { FlatList, ListRenderItem, ListRenderItemInfo, StyleSheet, View, useWindowDimensions } from "react-native";
 
 
-const styles = StyleSheet.create({
-  gameBoard: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    borderStyle: 'solid',
-  },
-  cardList: {
-    flex: 1,
-  },
-  cardListContent: {
-    flexGrow: 1
-  },
-  cardListColumnWrapper: {
-  }
-});
-
-
 const maxSelections = 2;
 const timeoutDuration = 1500;
 const RESULT_PENDING = "pending";
 const RESULT_SUCCESS = "success";
 const RESULT_FAIL = "fail";
 const cardListColumns = 3;
+
 
 export default function GameBoard() {
   const [cardDeck, updateCardDeck] = useState(createCardDeck);
@@ -160,14 +142,23 @@ export default function GameBoard() {
       />
     </View>
   );
-
-/*
-  return (
-    <View style={styles.gameBoard}>
-      {cardDeck.map(card => (
-        <Card key={card.id} {...card} />
-      ))}
-    </View>
-  );
-*/
 }
+
+
+const styles = StyleSheet.create({
+  gameBoard: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    borderStyle: 'solid',
+  },
+  cardList: {
+    flex: 1,
+  },
+  cardListContent: {
+    flexGrow: 1
+  },
+  cardListColumnWrapper: {
+  }
+});

@@ -1,1 +1,4 @@
 - Fix bug with card grid height not fitting into the device's screen height.
+- Add a "tries" counter.
+- Add a "new game" button.
+- Add status text to display success or failure results.
