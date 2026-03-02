@@ -5,7 +5,7 @@ import { FlatList, ListRenderItem, ListRenderItemInfo, StyleSheet, View } from "
 
 
 const maxSelections = 2;
-const timeoutDuration = 1250;
+const timeoutDuration = 700;
 const RESULT_PENDING = "pending";
 const RESULT_SUCCESS = "success";
 const RESULT_FAIL = "fail";
