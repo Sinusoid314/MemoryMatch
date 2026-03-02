@@ -26,13 +26,9 @@ export default function Card(props: CardProps) {
   const image = props.isFlipped ? props.image : cardBackImage;
   const borderColor = props.isSelected ? 'aqua' : 'white';
 
-  function onPressHandler() {
-    props.onCardPressCallback(props.id);
-  }
-
   return (
     <Pressable
-      onPress={onPressHandler}
+      onPress={() => props.onCardPressCallback(props.id)}
       disabled={props.isFlipped}
       style={[styles.card, {borderColor: borderColor}]}
     >
