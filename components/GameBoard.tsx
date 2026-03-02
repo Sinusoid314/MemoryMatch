@@ -1,11 +1,11 @@
 import type { CardProps } from "@/components/Card";
 import Card, { cardFaceImages } from "@/components/Card";
 import { useEffect, useRef, useState } from "react";
-import { FlatList, ListRenderItem, ListRenderItemInfo, StyleSheet, View, useWindowDimensions } from "react-native";
+import { FlatList, ListRenderItem, ListRenderItemInfo, StyleSheet, View } from "react-native";
 
 
 const maxSelections = 2;
-const timeoutDuration = 1500;
+const timeoutDuration = 1250;
 const RESULT_PENDING = "pending";
 const RESULT_SUCCESS = "success";
 const RESULT_FAIL = "fail";
@@ -17,9 +17,7 @@ export default function GameBoard() {
   const [result, setResult] = useState(RESULT_PENDING);
   const selectedCardIdsRef = useRef<number[]>([]);
   const timeoutIdRef = useRef(0);
-  const screenWidth = useWindowDimensions().width;
-  //const cardRenderItemSize = screenWidth / cardListColumns;
-  let cardRenderItem: ListRenderItem<CardProps>;
+  let cardListRenderItem: ListRenderItem<CardProps>;
   let gameBoardColor: any;
 
 
@@ -123,9 +121,8 @@ export default function GameBoard() {
 
   gameBoardColor = (result===RESULT_SUCCESS) ? 'palegreen' : ((result===RESULT_FAIL) ? 'salmon' : 'tan');
 
-  cardRenderItem = ({item: card}: ListRenderItemInfo<CardProps>) => (
-    //style={{width: cardRenderItemSize, height: cardRenderItemSize}}>
-    <View> 
+  cardListRenderItem = ({item: card}: ListRenderItemInfo<CardProps>) => (
+    <View style={styles.cardListItem}> 
       <Card {...card} />
     </View>
   );
@@ -133,10 +130,9 @@ export default function GameBoard() {
   return (
     <View style={[styles.gameBoard, {backgroundColor: gameBoardColor}]}>
       <FlatList
-        style={styles.cardList}
-        contentContainerStyle={styles.cardListContent}
-        numColumns={3}
-        renderItem={cardRenderItem}
+        contentContainerStyle={styles.cardList}
+        numColumns={cardListColumns}
+        renderItem={cardListRenderItem}
         data={cardDeck}
         keyExtractor={(card: CardProps) => String(card.id)}
       />
@@ -150,17 +146,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
-    borderStyle: 'solid',
+    width: '100%'
   },
   cardList: {
     flex: 1,
-    width: "100%",
-    backgroundColor: "red"
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  cardListContent: {
-    flex: 1,
-    width: "100%",
-    backgroundColor: "blue"
+  cardListItem: {
+    aspectRatio: 1
   }
 });
