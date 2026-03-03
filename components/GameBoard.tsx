@@ -57,7 +57,14 @@ export default function GameBoard() {
 
 
   function onNewGameButtonPress() {
+    if(selectedCardIdsRef.current.length === maxSelections)
+      return;
 
+    updateCardDeck(createCardDeck());
+    setResult(RESULT_PENDING);
+    setTryCount(0);
+    selectedCardIdsRef.current = [];
+    timeoutIdRef.current = 0;
   }
 
   function onCardPress(cardId: number) {
