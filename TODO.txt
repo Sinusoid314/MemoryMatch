@@ -1,4 +1,3 @@
-- Add a "tries" counter.
 - Add a "new game" button.
-- Add status text to display success or failure results.
+- Add a popup image to display success or failure results.
 - Add ability to adjust card grid columns based on the number of card types and max selections.

@@ -39,6 +39,7 @@ export default function GameBoard() {
       deselectCards(selectedCardIdsRef.current);
       timeoutIdRef.current = 0;
       setResult(RESULT_PENDING);
+      setTryCount(prevTryCount => prevTryCount + 1);
     }, timeoutDuration);
   }, [result]);
 
