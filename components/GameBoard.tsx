@@ -2,7 +2,7 @@ import type { CardProps } from "@/components/Card";
 import Card, { cardFaceImages } from "@/components/Card";
 import Header from "@/components/Header";
 import { useEffect, useRef, useState } from "react";
-import { FlatList, ListRenderItem, ListRenderItemInfo, StyleSheet, View } from "react-native";
+import { FlatList, Image, ListRenderItem, ListRenderItemInfo, StyleSheet, View } from "react-native";
 
 
 const maxSelections = 2;
@@ -154,6 +154,13 @@ export default function GameBoard() {
           data={cardDeck}
           keyExtractor={(card: CardProps) => String(card.id)}
         />
+        
+        { 
+          (result === RESULT_SUCCESS) ? (<Image source={require('@/assets/images/success.png')} style={{position: 'absolute'}} />)
+                                      : (result === RESULT_FAIL)
+                                      ? (<Image source={require('@/assets/images/fail.png')} style={{position: 'absolute'}} />)
+                                      : (undefined)
+        }
       </View>
   );
 }
