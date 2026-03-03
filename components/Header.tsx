@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 
 type HeaderProps = {
@@ -9,32 +9,45 @@ type HeaderProps = {
 
 export default function Header(props: HeaderProps) {
   return (
-    <View style={styles.header}>
-        <Text style={styles.tryCount}>Tries: {props.tryCount}</Text>
-        <Button
-          title="New Game"
-          onPress={() => props.onNewGamePressCallback()}
-        />
+    <View style={[styles.header, styles.buttonFace, styles.buttonFaceReleased]}>
+        <Text style={[styles.buttonFace, styles.buttonFacePressed]}>
+          Tries: {props.tryCount}
+        </Text>
+        <Pressable onPress={() => props.onNewGamePressCallback()}>
+          <Text style={[styles.buttonFace, styles.buttonFaceReleased]}>
+            New Game
+          </Text>
+        </Pressable>
     </View>
   );
 }
 
 
 const styles = StyleSheet.create({
+  buttonFace: {
+    backgroundColor: "lightgray",
+    fontFamily: 'monospace',
+    fontSize: 16,
+    padding: 6
+  },
+  buttonFaceReleased: {
+    borderBottomColor: 'gray', borderBottomWidth: 1,
+    borderRightColor: 'gray', borderRightWidth: 1,
+    borderTopColor: 'white', borderTopWidth: 1,
+    borderLeftColor: 'white', borderLeftWidth: 1
+  },
+  buttonFacePressed: {
+    borderBottomColor: 'white', borderBottomWidth: 1,
+    borderRightColor: 'white', borderRightWidth: 1,
+    borderTopColor: 'gray', borderTopWidth: 1,
+    borderLeftColor: 'gray', borderLeftWidth: 1
+  },
   header: {
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingBlock: 5,
-    paddingInline: '10%', 
-    backgroundColor: "lightgray",
-    borderBottomColor: 'gray', borderBottomWidth: 1,
-    borderRightColor: 'gray', borderRightWidth: 1,
-    borderTopColor: 'white', borderTopWidth: 1,
-    borderLeftColor: 'white', borderLeftWidth: 1
-  },
-  tryCount: {
-
+    paddingInline: '10%'
   }
 });
