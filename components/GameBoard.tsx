@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { FlatList, Image, ListRenderItem, ListRenderItemInfo, StyleSheet, View } from "react-native";
 
 
+const successImage: number = require('@/assets/images/success.png');
+const failImage: number = require('@/assets/images/fail.png');
 const maxSelections = 2;
 const timeoutDuration = 700;
 const RESULT_PENDING = "pending";
@@ -21,6 +23,7 @@ export default function GameBoard() {
   const timeoutIdRef = useRef(0);
   let cardListRenderItem: ListRenderItem<CardProps>;
   let gameBoardColor: any;
+  let resultImagePopup: any;
 
 
   useEffect(() => {
@@ -140,6 +143,11 @@ export default function GameBoard() {
       <Card {...card} />
     </View>
   );
+
+  resultImagePopup = ((result === RESULT_SUCCESS) ? (<Image source={successImage} style={{position: 'absolute'}} />)
+                                      : (result === RESULT_FAIL)
+                                      ? (<Image source={failImage} style={{position: 'absolute'}} />)
+                                      : (undefined));
  
   return (
       <View style={[styles.gameBoard, {backgroundColor: gameBoardColor}]}>
@@ -154,13 +162,7 @@ export default function GameBoard() {
           data={cardDeck}
           keyExtractor={(card: CardProps) => String(card.id)}
         />
-        
-        { 
-          (result === RESULT_SUCCESS) ? (<Image source={require('@/assets/images/success.png')} style={{position: 'absolute'}} />)
-                                      : (result === RESULT_FAIL)
-                                      ? (<Image source={require('@/assets/images/fail.png')} style={{position: 'absolute'}} />)
-                                      : (undefined)
-        }
+        {resultImagePopup}
       </View>
   );
 }
