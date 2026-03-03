@@ -26,8 +26,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingInline: 5, 
-    backgroundColor: "lightgray"
+    paddingBlock: 5,
+    paddingInline: '10%', 
+    backgroundColor: "lightgray",
+    borderBottomColor: 'gray', borderBottomWidth: 1,
+    borderRightColor: 'gray', borderRightWidth: 1,
+    borderTopColor: 'white', borderTopWidth: 1,
+    borderLeftColor: 'white', borderLeftWidth: 1
   },
   tryCount: {
 

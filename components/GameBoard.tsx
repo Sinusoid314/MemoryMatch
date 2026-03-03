@@ -134,19 +134,19 @@ export default function GameBoard() {
   );
  
   return (
-    <View style={[styles.gameBoard, {backgroundColor: gameBoardColor}]}>
-      <Header
-        tryCount={tryCount}
-        onNewGamePressCallback={onNewGameButtonPress}
-      />
-      <FlatList
-        contentContainerStyle={styles.cardList}
-        numColumns={cardListColumns}
-        renderItem={cardListRenderItem}
-        data={cardDeck}
-        keyExtractor={(card: CardProps) => String(card.id)}
-      />
-    </View>
+      <View style={[styles.gameBoard, {backgroundColor: gameBoardColor}]}>
+        <Header
+          tryCount={tryCount}
+          onNewGamePressCallback={onNewGameButtonPress}
+        />
+        <FlatList
+          contentContainerStyle={styles.cardList}
+          numColumns={cardListColumns}
+          renderItem={cardListRenderItem}
+          data={cardDeck}
+          keyExtractor={(card: CardProps) => String(card.id)}
+        />
+      </View>
   );
 }
 
@@ -156,13 +156,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    //width: '100%',
-    borderWidth: 2
+    borderWidth: 1
   },
   cardList: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingInline: 50
   },
   cardListItem: {
     aspectRatio: 1
