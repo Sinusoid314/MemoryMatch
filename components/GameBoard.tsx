@@ -1,5 +1,6 @@
 import type { CardProps } from "@/components/Card";
 import Card, { cardFaceImages } from "@/components/Card";
+import Header from "@/components/Header";
 import { useEffect, useRef, useState } from "react";
 import { FlatList, ListRenderItem, ListRenderItemInfo, StyleSheet, View } from "react-native";
 
@@ -15,6 +16,7 @@ const cardListColumns = 3;
 export default function GameBoard() {
   const [cardDeck, updateCardDeck] = useState(createCardDeck);
   const [result, setResult] = useState(RESULT_PENDING);
+  const [tryCount, setTryCount] = useState(0);
   const selectedCardIdsRef = useRef<number[]>([]);
   const timeoutIdRef = useRef(0);
   let cardListRenderItem: ListRenderItem<CardProps>;
@@ -52,6 +54,10 @@ export default function GameBoard() {
     return [...newCardDeck].sort(() => Math.random() - 0.5);
   }
 
+
+  function onNewGameButtonPress() {
+
+  }
 
   function onCardPress(cardId: number) {
     if(selectedCardIdsRef.current.length === maxSelections)
@@ -119,7 +125,7 @@ export default function GameBoard() {
   }
 
 
-  gameBoardColor = (result===RESULT_SUCCESS) ? 'palegreen' : ((result===RESULT_FAIL) ? 'salmon' : 'tan');
+  gameBoardColor = (result === RESULT_SUCCESS) ? "palegreen" : (result === RESULT_FAIL) ? "salmon" : "tan";
 
   cardListRenderItem = ({item: card}: ListRenderItemInfo<CardProps>) => (
     <View style={styles.cardListItem}> 
@@ -129,6 +135,10 @@ export default function GameBoard() {
  
   return (
     <View style={[styles.gameBoard, {backgroundColor: gameBoardColor}]}>
+      <Header
+        tryCount={tryCount}
+        onNewGamePressCallback={onNewGameButtonPress}
+      />
       <FlatList
         contentContainerStyle={styles.cardList}
         numColumns={cardListColumns}
@@ -146,7 +156,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%'
+    //width: '100%',
+    borderWidth: 2
   },
   cardList: {
     flex: 1,
