@@ -13,10 +13,11 @@ export default function Header(props: HeaderProps) {
         <Text style={[styles.buttonFace, styles.buttonFacePressed]}>
           Tries: {props.tryCount}
         </Text>
-        <Pressable onPress={() => props.onNewGamePressCallback()}>
-          <Text style={[styles.buttonFace, styles.buttonFaceReleased]}>
-            New Game
-          </Text>
+        <Pressable
+          onPress={() => props.onNewGamePressCallback()}
+          style={({pressed}) => [styles.buttonFace, (pressed ? styles.buttonFacePressed : styles.buttonFaceReleased)]}
+        >
+          New Game
         </Pressable>
     </View>
   );
