@@ -185,3 +185,16 @@ const styles = StyleSheet.create({
     aspectRatio: 1
   }
 });
+
+
+function getClosestSquareGridDimenstions(gridItemCount: number) {
+  let factorPairs: any[] = [];
+  
+  for(let i = 1; (i * i) <= gridItemCount; i++) {
+    if((gridItemCount % i) === 0) {
+      factorPairs.push({width: i, height: gridItemCount / i});
+    }
+  }
+
+  return factorPairs[factorPairs.length - 1];
+}
