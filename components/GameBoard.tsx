@@ -173,7 +173,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1
+    borderWidth: 1,
+    marginBlock: 10
   },
   cardList: {
     flex: 1,
