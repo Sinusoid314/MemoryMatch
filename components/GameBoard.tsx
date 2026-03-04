@@ -26,11 +26,15 @@ export default function GameBoard() {
   let resultImagePopup: any;
 
 
+  //Component unmount cleanup
   useEffect(() => {
     return () => clearTimeout(timeoutIdRef.current);
   }, []);
 
 
+  //When 'result' changes to SUCCESS or FAIL, end the current try
+  //by deselecting the selected cards and, if the try failed,
+  //flipping them face-down again.
   useEffect(() => {
     if(result === RESULT_PENDING)
       return;
@@ -47,6 +51,7 @@ export default function GameBoard() {
   }, [result]);
 
 
+  //Generate and return a new, shuffled card deck
   function createCardDeck() {
     const newCardDeck: CardProps[] = [];
 
@@ -59,6 +64,7 @@ export default function GameBoard() {
   }
 
 
+  //Start a new game by resetting the game state to initial values
   function onNewGameButtonPress() {
     if(selectedCardIdsRef.current.length === maxSelections)
       return;
@@ -70,6 +76,10 @@ export default function GameBoard() {
     timeoutIdRef.current = 0;
   }
 
+
+  //If the number of selected cards is already at maxSelections, do nothing.
+  //Otherwise, flip and select the user-pressed card. If the number of selected
+  //cards has reached maxSelections after doing this, compare the selected cards.
   function onCardPress(cardId: number) {
     if(selectedCardIdsRef.current.length === maxSelections)
       return;
@@ -84,6 +94,8 @@ export default function GameBoard() {
   }
 
 
+  //Compare the face images of the selected cards. If they match,
+  //change 'result' state to SUCCESS; otherwise change it to FAIL.
   function compareSelectedCards(cardIds: number[]) {
     const cardsMatch = cardDeck.filter((card) => {
       if(cardIds.includes(card.id))
@@ -101,6 +113,7 @@ export default function GameBoard() {
   }
 
 
+  //Invert the isFlipped property of the cards referenced by the given card IDs.
   function flipCards(cardIds: number[]) {
     updateCardDeck(oldCardDeck => 
       oldCardDeck.map(card => {
@@ -113,8 +126,10 @@ export default function GameBoard() {
   }
 
 
-  function selectCard(cardId: number, cardIds: number[]) {
-    cardIds.push(cardId);
+  //Add the given card ID to the given selected-card-ID array,
+  //and set the card's isSelected property to true.
+  function selectCard(cardId: number, selectedCardIds: number[]) {
+    selectedCardIds.push(cardId);
     updateCardDeck(oldCardDeck => 
       oldCardDeck.map(card => {
         if(cardId === card.id)
@@ -126,13 +141,15 @@ export default function GameBoard() {
   }
 
 
-  function deselectCards(cardIds: number[]) {
+  //Set the isSelected property of all the cards referenced in the given
+  //selected-card-ID array to false, and clear the selected-card-ID array.
+  function deselectCards(selectedCardIds: number[]) {
     updateCardDeck(oldCardDeck =>
       oldCardDeck.map(card => {
           return {...card, isSelected: false};
       })
     );
-    while(cardIds.length > 0) cardIds.pop();
+    while(selectedCardIds.length > 0) selectedCardIds.pop();
   }
 
 
@@ -188,6 +205,8 @@ const styles = StyleSheet.create({
 });
 
 
+//Given the total number of items in a grid, returns {width,height} dimensions
+//for the grid that are, or are closest to, a perfect square.
 function getClosestSquareGridDimenstions(gridItemCount: number) {
   let factorPairs: any[] = [];
   
