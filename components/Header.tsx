@@ -11,13 +11,13 @@ export default function Header(props: HeaderProps) {
   return (
     <View style={[styles.header, styles.buttonFace, styles.buttonFaceReleased]}>
         <Text style={[styles.buttonFace, styles.buttonFacePressed]}>
-          Tries: {props.tryCount}
+          <Text style={styles.text}>Tries: {props.tryCount}</Text>
         </Text>
         <Pressable
           onPress={() => props.onNewGamePressCallback()}
           style={({pressed}) => [styles.buttonFace, (pressed ? styles.buttonFacePressed : styles.buttonFaceReleased)]}
         >
-          New Game
+          <Text style={styles.text}>New Game</Text>
         </Pressable>
     </View>
   );
@@ -27,8 +27,6 @@ export default function Header(props: HeaderProps) {
 const styles = StyleSheet.create({
   buttonFace: {
     backgroundColor: "lightgray",
-    fontFamily: 'monospace',
-    fontSize: 16,
     padding: 6
   },
   buttonFaceReleased: {
@@ -42,6 +40,10 @@ const styles = StyleSheet.create({
     borderRightColor: 'white', borderRightWidth: 1,
     borderTopColor: 'gray', borderTopWidth: 1,
     borderLeftColor: 'gray', borderLeftWidth: 1
+  },
+  text: {
+    fontFamily: 'monospace',
+    fontSize: 16
   },
   header: {
     width: '100%',
