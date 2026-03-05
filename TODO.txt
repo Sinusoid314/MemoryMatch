@@ -1,1 +1,3 @@
 - Fix bug on Android mobile where card grid is not completely centered.
+- Add a "game over" message when all cards have been flipped.
+- Add a "best score" counter for tracking the lowest tryCount from previous games.

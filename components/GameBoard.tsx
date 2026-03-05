@@ -51,6 +51,13 @@ export default function GameBoard() {
   }, [result]);
 
 
+/*
+  useEffect(() => {
+    let gameOver = cardDeck.every((card) => card.isFlipped);
+  }, [tryCount]);
+*/
+
+
   //Generate and return a new, shuffled card deck
   function createCardDeck() {
     const newCardDeck: CardProps[] = [];
@@ -96,9 +103,9 @@ export default function GameBoard() {
 
   //Compare the face images of the selected cards. If they match,
   //change 'result' state to SUCCESS; otherwise change it to FAIL.
-  function compareSelectedCards(cardIds: number[]) {
+  function compareSelectedCards(selectedCardIds: number[]) {
     const cardsMatch = cardDeck.filter((card) => {
-      if(cardIds.includes(card.id))
+      if(selectedCardIds.includes(card.id))
         return true;
       else
         return false;
