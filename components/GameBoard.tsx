@@ -184,7 +184,7 @@ export default function GameBoard() {
           numColumns={cardListColumns}
           renderItem={cardListRenderItem}
           data={cardDeck}
-          keyExtractor={(card: CardProps) => String(card.id)}
+          keyExtractor={(card: CardProps) => card.id.toString()}
         />
         {resultImagePopup}
       </View>
