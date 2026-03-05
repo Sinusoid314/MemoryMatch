@@ -204,10 +204,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingInline: 50
+    paddingLeft: 0,
+    paddingRight: 0
   },
   cardListItem: {
-    aspectRatio: 1
+    aspectRatio: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 

@@ -13,6 +13,11 @@ export default function Header(props: HeaderProps) {
         <Text style={[styles.buttonFace, styles.buttonFacePressed]}>
           <Text style={styles.text}>Tries: {props.tryCount}</Text>
         </Text>
+        
+        <Text style={[styles.buttonFace, styles.buttonFacePressed]}>
+          <Text style={styles.text}>Time: 0</Text>
+        </Text>
+        
         <Pressable
           onPress={() => props.onNewGamePressCallback()}
           style={({pressed}) => [styles.buttonFace, (pressed ? styles.buttonFacePressed : styles.buttonFaceReleased)]}
@@ -43,7 +48,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'monospace',
-    fontSize: 16
+    fontSize: 14
   },
   header: {
     width: '100%',
@@ -51,6 +56,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingBlock: 5,
-    paddingInline: '10%'
+    paddingInline: '2%'
   }
 });
