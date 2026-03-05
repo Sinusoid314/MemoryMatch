@@ -4,7 +4,7 @@ Bugs:
 
 Features:
   - "game over" message when all cards have been flipped.
-  - "best score" counter for tracking the lowest tryCount from previous games.
+  - Game timer to count the time it takes a player to flip all cards.
 
 Misc:
   - 
