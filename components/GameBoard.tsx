@@ -12,7 +12,7 @@ const timeoutDuration = 700;
 const RESULT_PENDING = "pending";
 const RESULT_SUCCESS = "success";
 const RESULT_FAIL = "fail";
-const cardListColumns = 3;
+const cardListColumns = getClosestSquareGridDimensions(cardFaceImages.length * maxSelections).columns;
 
 
 export default function GameBoard() {
@@ -205,14 +205,14 @@ const styles = StyleSheet.create({
 });
 
 
-//Given the total number of items in a grid, returns {width,height} dimensions
+//Given the total number of items in a grid, returns {columns,rows} dimensions
 //for the grid that are, or are closest to, a perfect square.
-function getClosestSquareGridDimenstions(gridItemCount: number) {
+function getClosestSquareGridDimensions(gridItemCount: number) {
   let factorPairs: any[] = [];
   
   for(let i = 1; (i * i) <= gridItemCount; i++) {
     if((gridItemCount % i) === 0) {
-      factorPairs.push({width: i, height: gridItemCount / i});
+      factorPairs.push({columns: i, rows: gridItemCount / i});
     }
   }
 
