@@ -197,15 +197,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    marginBlock: 10
+    marginBlock: 25
   },
   cardList: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingLeft: 0,
-    paddingRight: 0
+    justifyContent: 'center'
   },
   cardListItem: {
     aspectRatio: 1,

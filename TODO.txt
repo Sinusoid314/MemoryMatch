@@ -1,6 +1,5 @@
 Bugs:
-  - On Android mobile v16 where card grid is not completely centered.
-  - On Android mobile where the phone's status bar overlaps the app view.
+  - 
 
 Features:
   - "game over" message when all cards have been flipped.
