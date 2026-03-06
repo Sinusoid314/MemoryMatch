@@ -1,5 +1,6 @@
 Bugs:
-  - 
+  - Make sure the current device's system UI components aren't obscured by the app.
+  - Use the devices screen width to calculate the width of the cards.
 
 Features:
   - "game over" message when all cards have been flipped.
