@@ -12,7 +12,7 @@ const timeoutDuration = 700;
 const RESULT_PENDING = "pending";
 const RESULT_SUCCESS = "success";
 const RESULT_FAIL = "fail";
-const cardListColumns = getClosestSquareGridDimensions(cardFaceImages.length * maxSelections).columns;
+const cardGridColumns = getClosestSquareGridDimensions(cardFaceImages.length * maxSelections).columns;
 
 
 export default function GameBoard() {
@@ -21,7 +21,7 @@ export default function GameBoard() {
   const [tryCount, setTryCount] = useState(0);
   const selectedCardIdsRef = useRef<number[]>([]);
   const timeoutIdRef = useRef(0);
-  let cardListRenderItem: ListRenderItem<CardProps>;
+  let cardGridRenderItem: ListRenderItem<CardProps>;
   let gameBoardColor: any;
   let resultImagePopup: any;
 
@@ -162,8 +162,8 @@ export default function GameBoard() {
 
   gameBoardColor = (result === RESULT_SUCCESS) ? "palegreen" : (result === RESULT_FAIL) ? "salmon" : "tan";
 
-  cardListRenderItem = ({item: card}: ListRenderItemInfo<CardProps>) => (
-    <View style={styles.cardListItem}> 
+  cardGridRenderItem = ({item: card}: ListRenderItemInfo<CardProps>) => (
+    <View style={styles.cardGridItem}> 
       <Card {...card} />
     </View>
   );
@@ -180,9 +180,9 @@ export default function GameBoard() {
           onNewGamePressCallback={onNewGameButtonPress}
         />
         <FlatList
-          contentContainerStyle={styles.cardList}
-          numColumns={cardListColumns}
-          renderItem={cardListRenderItem}
+          contentContainerStyle={styles.cardGrid}
+          numColumns={cardGridColumns}
+          renderItem={cardGridRenderItem}
           data={cardDeck}
           keyExtractor={(card: CardProps) => card.id.toString()}
         />
@@ -199,12 +199,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBlock: 25
   },
-  cardList: {
+  cardGrid: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
   },
-  cardListItem: {
+  cardGridItem: {
     aspectRatio: 1,
     alignItems: 'center',
     justifyContent: 'center'
