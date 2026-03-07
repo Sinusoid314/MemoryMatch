@@ -1,4 +1,3 @@
 - Make sure the current device's system UI components aren't obscured by the app.
 - Use the devices screen width to calculate the width of the cards.
-- Add "game over" message when all cards have been flipped.
 - Add game timer to count the time it takes a player to flip all cards.

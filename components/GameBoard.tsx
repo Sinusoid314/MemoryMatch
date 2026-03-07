@@ -2,7 +2,7 @@ import type { CardProps } from "@/components/Card";
 import Card, { cardFaceImages } from "@/components/Card";
 import Header from "@/components/Header";
 import { useEffect, useRef, useState } from "react";
-import { FlatList, Image, ListRenderItem, ListRenderItemInfo, StyleSheet, View } from "react-native";
+import { FlatList, Image, ListRenderItem, ListRenderItemInfo, StyleSheet, Text, View } from "react-native";
 
 
 const successImage: number = require('@/assets/images/success.png');
@@ -19,11 +19,13 @@ export default function GameBoard() {
   const [cardDeck, updateCardDeck] = useState(createCardDeck);
   const [result, setResult] = useState(RESULT_PENDING);
   const [tryCount, setTryCount] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
   const selectedCardIdsRef = useRef<number[]>([]);
   const timeoutIdRef = useRef(0);
   let cardGridRenderItem: ListRenderItem<CardProps>;
   let gameBoardColor: any;
   let resultImagePopup: any;
+  let gameOverPopup: any;
 
 
   //Component unmount cleanup
@@ -47,15 +49,9 @@ export default function GameBoard() {
       timeoutIdRef.current = 0;
       setResult(RESULT_PENDING);
       setTryCount(prevTryCount => prevTryCount + 1);
+      setGameOver(cardDeck.every((card) => card.isFlipped));
     }, timeoutDuration);
   }, [result]);
-
-
-/*
-  useEffect(() => {
-    let gameOver = cardDeck.every((card) => card.isFlipped);
-  }, [tryCount]);
-*/
 
 
   //Generate and return a new, shuffled card deck
@@ -79,6 +75,7 @@ export default function GameBoard() {
     updateCardDeck(createCardDeck());
     setResult(RESULT_PENDING);
     setTryCount(0);
+    setGameOver(false);
     selectedCardIdsRef.current = [];
     timeoutIdRef.current = 0;
   }
@@ -173,6 +170,9 @@ export default function GameBoard() {
                                       ? (<Image source={failImage} style={{position: 'absolute'}} />)
                                       : (undefined));
  
+  gameOverPopup = (gameOver ? (<Text style={styles.gameOver}>Game Over</Text>)
+                            : (undefined));
+
   return (
       <View style={[styles.gameBoard, {backgroundColor: gameBoardColor}]}>
         <Header
@@ -187,6 +187,7 @@ export default function GameBoard() {
           keyExtractor={(card: CardProps) => card.id.toString()}
         />
         {resultImagePopup}
+        {gameOverPopup}
       </View>
   );
 }
@@ -208,6 +209,11 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  gameOver: {
+    position: 'absolute', 
+    fontSize: 36,
+    backgroundColor: 'salmon'
   }
 });
 
