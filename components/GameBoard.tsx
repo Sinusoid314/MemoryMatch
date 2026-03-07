@@ -21,7 +21,7 @@ export default function GameBoard() {
   const [tryCount, setTryCount] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const selectedCardIdsRef = useRef<number[]>([]);
-  const timeoutIdRef = useRef(0);
+  const resultDisplayTimeoutIdRef = useRef(0);
   let cardGridRenderItem: ListRenderItem<CardProps>;
   let gameBoardColor: any;
   let resultImagePopup: any;
@@ -30,7 +30,7 @@ export default function GameBoard() {
 
   //Component unmount cleanup
   useEffect(() => {
-    return () => clearTimeout(timeoutIdRef.current);
+    return () => clearTimeout(resultDisplayTimeoutIdRef.current);
   }, []);
 
 
@@ -41,12 +41,12 @@ export default function GameBoard() {
     if(result === RESULT_PENDING)
       return;
 
-    timeoutIdRef.current = setTimeout(() => {
+    resultDisplayTimeoutIdRef.current = setTimeout(() => {
       if(result === RESULT_FAIL) 
         flipCards(selectedCardIdsRef.current);
 
       deselectCards(selectedCardIdsRef.current);
-      timeoutIdRef.current = 0;
+      resultDisplayTimeoutIdRef.current = 0;
       setResult(RESULT_PENDING);
       setTryCount(prevTryCount => prevTryCount + 1);
       setGameOver(cardDeck.every((card) => card.isFlipped));
@@ -77,7 +77,7 @@ export default function GameBoard() {
     setTryCount(0);
     setGameOver(false);
     selectedCardIdsRef.current = [];
-    timeoutIdRef.current = 0;
+    resultDisplayTimeoutIdRef.current = 0;
   }
 
 
