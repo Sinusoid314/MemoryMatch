@@ -165,9 +165,9 @@ export default function GameBoard() {
     </View>
   );
 
-  resultImagePopup = ((result === RESULT_SUCCESS) ? (<Image source={successImage} style={{position: 'absolute'}} />)
+  resultImagePopup = ((result === RESULT_SUCCESS) ? (<Image source={successImage} style={styles.result} />)
                                       : (result === RESULT_FAIL)
-                                      ? (<Image source={failImage} style={{position: 'absolute'}} />)
+                                      ? (<Image source={failImage} style={styles.result} />)
                                       : (undefined));
  
   gameOverPopup = (gameOver ? (<Text style={styles.gameOver}>Game Over</Text>)
@@ -210,10 +210,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  result: {
+    position: 'absolute',
+    opacity: 0.9,
+  },
   gameOver: {
     position: 'absolute', 
     fontSize: 36,
-    backgroundColor: 'salmon'
+    backgroundColor: 'palegreen',
+    padding: 6,
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderBottomWidth: 2,
+    borderRightWidth: 2,
+    opacity: 0.8,
+    borderRadius: 10,
+    textShadowColor: 'white',
+    textShadowOffset: {width: 2, height: 2},
+    textShadowRadius: 2
   }
 });
 
