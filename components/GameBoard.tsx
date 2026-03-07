@@ -8,7 +8,7 @@ import { FlatList, Image, ListRenderItem, ListRenderItemInfo, StyleSheet, Text, 
 const successImage: number = require('@/assets/images/success.png');
 const failImage: number = require('@/assets/images/fail.png');
 const maxSelections = 2;
-const resultDisplayMilliseconds = 700;
+const resultDisplayDuration = 700;
 const RESULT_PENDING = "pending";
 const RESULT_SUCCESS = "success";
 const RESULT_FAIL = "fail";
@@ -21,7 +21,7 @@ export default function GameBoard() {
   const [tryCount, setTryCount] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const selectedCardIdsRef = useRef<number[]>([]);
-  const resultDisplayTimeoutIdRef = useRef(0);
+  const resultDisplayTimerRef = useRef(0);
   let cardGridRenderItem: ListRenderItem<CardProps>;
   let gameBoardColor: any;
   let resultImagePopup: any;
@@ -30,7 +30,7 @@ export default function GameBoard() {
 
   //Component unmount cleanup
   useEffect(() => {
-    return () => clearTimeout(resultDisplayTimeoutIdRef.current);
+    return () => clearTimeout(resultDisplayTimerRef.current);
   }, []);
 
 
@@ -41,16 +41,16 @@ export default function GameBoard() {
     if(result === RESULT_PENDING)
       return;
 
-    resultDisplayTimeoutIdRef.current = setTimeout(() => {
+    resultDisplayTimerRef.current = setTimeout(() => {
       if(result === RESULT_FAIL) 
         flipCards(selectedCardIdsRef.current);
 
       deselectCards(selectedCardIdsRef.current);
-      resultDisplayTimeoutIdRef.current = 0;
+      resultDisplayTimerRef.current = 0;
       setResult(RESULT_PENDING);
       setTryCount(prevTryCount => prevTryCount + 1);
       setGameOver(cardDeck.every((card) => card.isFlipped));
-    }, resultDisplayMilliseconds);
+    }, resultDisplayDuration);
   }, [result]);
 
 
@@ -77,7 +77,7 @@ export default function GameBoard() {
     setTryCount(0);
     setGameOver(false);
     selectedCardIdsRef.current = [];
-    resultDisplayTimeoutIdRef.current = 0;
+    resultDisplayTimerRef.current = 0;
   }
 
 
