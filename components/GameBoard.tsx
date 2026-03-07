@@ -8,7 +8,7 @@ import { FlatList, Image, ListRenderItem, ListRenderItemInfo, StyleSheet, Text, 
 const successImage: number = require('@/assets/images/success.png');
 const failImage: number = require('@/assets/images/fail.png');
 const maxSelections = 2;
-const timeoutDuration = 700;
+const resultDisplayDuration = 700;
 const RESULT_PENDING = "pending";
 const RESULT_SUCCESS = "success";
 const RESULT_FAIL = "fail";
@@ -50,7 +50,7 @@ export default function GameBoard() {
       setResult(RESULT_PENDING);
       setTryCount(prevTryCount => prevTryCount + 1);
       setGameOver(cardDeck.every((card) => card.isFlipped));
-    }, timeoutDuration);
+    }, resultDisplayDuration);
   }, [result]);
 
 
