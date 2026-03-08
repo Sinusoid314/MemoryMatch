@@ -19,9 +19,13 @@ export default function GameBoard() {
   const [cardDeck, updateCardDeck] = useState(createCardDeck);
   const [result, setResult] = useState(RESULT_PENDING);
   const [tryCount, setTryCount] = useState(0);
+   const [gameDuration, setGameDuration] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+
   const selectedCardIdsRef = useRef<number[]>([]);
   const resultDisplayTimerRef = useRef(0);
+  const gameDurationTimerRef = useRef(0);
+
   let cardGridRenderItem: ListRenderItem<CardProps>;
   let gameBoardColor: any;
   let resultImagePopup: any;
@@ -30,7 +34,10 @@ export default function GameBoard() {
 
   //Component unmount cleanup
   useEffect(() => {
-    return () => clearTimeout(resultDisplayTimerRef.current);
+    return () => {
+      clearTimeout(resultDisplayTimerRef.current);
+      clearInterval(gameDurationTimerRef.current);
+    }
   }, []);
 
 
@@ -46,10 +53,16 @@ export default function GameBoard() {
         flipCards(selectedCardIdsRef.current);
 
       deselectCards(selectedCardIdsRef.current);
-      resultDisplayTimerRef.current = 0;
       setResult(RESULT_PENDING);
       setTryCount(prevTryCount => prevTryCount + 1);
-      setGameOver(cardDeck.every((card) => card.isFlipped));
+
+      if(cardDeck.every((card) => card.isFlipped)) {
+        clearInterval(gameDurationTimerRef.current);
+        gameDurationTimerRef.current = 0;
+        setGameOver(true);
+      }
+
+      resultDisplayTimerRef.current = 0;
     }, resultDisplayDuration);
   }, [result]);
 
@@ -75,18 +88,33 @@ export default function GameBoard() {
     updateCardDeck(createCardDeck());
     setResult(RESULT_PENDING);
     setTryCount(0);
+    setGameDuration(0);
     setGameOver(false);
     selectedCardIdsRef.current = [];
+
+    clearTimeout(resultDisplayTimerRef.current);
     resultDisplayTimerRef.current = 0;
+
+    clearInterval(gameDurationTimerRef.current);
+    gameDurationTimerRef.current = 0;
   }
 
 
   //If the number of selected cards is already at maxSelections, do nothing.
-  //Otherwise, flip and select the user-pressed card. If the number of selected
-  //cards has reached maxSelections after doing this, compare the selected cards.
+  //Otherwise, start the game timer if this is the first card pressed, then
+  //flip and select the user-pressed card. If the number of selected cards has
+  //reached maxSelections after doing this, compare the selected cards.
   function onCardPress(cardId: number) {
     if(selectedCardIdsRef.current.length === maxSelections)
       return;
+
+    console.log("Every card flipped? ", cardDeck.every((card) => card.isFlipped));
+
+    if(!cardDeck.every((card) => card.isFlipped) && (gameDurationTimerRef.current === 0)) {
+      gameDurationTimerRef.current = setInterval(() => {
+        setGameDuration(prevGameDuration => prevGameDuration + 1);
+      }, 1000);
+    }
 
     flipCards([cardId]);
     selectCard(cardId, selectedCardIdsRef.current);
@@ -177,6 +205,7 @@ export default function GameBoard() {
       <View style={[styles.gameBoard, {backgroundColor: gameBoardColor}]}>
         <Header
           tryCount={tryCount}
+          gameDuration={gameDuration}
           onNewGamePressCallback={onNewGameButtonPress}
         />
         <FlatList

@@ -3,22 +3,24 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 type HeaderProps = {
   tryCount: number;
+  gameDuration: number;
   onNewGamePressCallback: () => void;
 };
 
 
 export default function Header(props: HeaderProps) {
+  const gameMinutes = String(Math.floor(props.gameDuration / 60)).padStart(2, '0');
+  const gameSeconds = String(Math.floor(props.gameDuration % 60)).padStart(2, '0');
+
   return (
     <View style={[styles.header, styles.buttonFace, styles.buttonFaceReleased]}>
         <Text style={[styles.buttonFace, styles.buttonFacePressed]}>
           <Text style={styles.text}>Tries: {props.tryCount}</Text>
         </Text>
         
-        {/**
         <Text style={[styles.buttonFace, styles.buttonFacePressed]}>
-          <Text style={styles.text}>Time: 0</Text>
+          <Text style={styles.text}>Time: {gameMinutes}m:{gameSeconds}s</Text>
         </Text>
-        **/}
         
         <Pressable
           onPress={() => props.onNewGamePressCallback()}
