@@ -1,3 +1,2 @@
-- Fix bug with game timer not starting after finishing a full game and starting a new game.
 - Make sure the current device's system UI components aren't obscured by the app.
 - Use the devices screen width to calculate the width of the cards.

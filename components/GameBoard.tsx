@@ -73,7 +73,13 @@ export default function GameBoard() {
 
     cardFaceImages.forEach((image) => {
       for(let n = 0; n < maxSelections; n++)
-        newCardDeck.push({id: newCardDeck.length, image: image, isFlipped: false, isSelected: false, onCardPressCallback: onCardPress});
+        newCardDeck.push({
+          id: newCardDeck.length,
+          image: image,
+          isFlipped: false,
+          isSelected: false,
+          onCardPressCallback: onCardPress
+        });
     });
 
     return [...newCardDeck].sort(() => Math.random() - 0.5);
@@ -107,8 +113,6 @@ export default function GameBoard() {
   function onCardPress(cardId: number) {
     if(selectedCardIdsRef.current.length === maxSelections)
       return;
-
-    console.log("Every card flipped? ", cardDeck.every((card) => card.isFlipped));
 
     if(!cardDeck.every((card) => card.isFlipped) && (gameDurationTimerRef.current === 0)) {
       gameDurationTimerRef.current = setInterval(() => {
@@ -189,7 +193,7 @@ export default function GameBoard() {
 
   cardGridRenderItem = ({item: card}: ListRenderItemInfo<CardProps>) => (
     <View style={styles.cardGridItem}> 
-      <Card {...card} />
+      <Card {...card} onCardPressCallback={onCardPress} />
     </View>
   );
 
