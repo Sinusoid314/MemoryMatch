@@ -40,6 +40,13 @@ export default function GameBoard() {
   }, []);
 
 
+  useEffect(() => {
+    if(cardDeck.filter(card => card.isSelected).length < maxSelections)
+      return;
+
+    compareSelectedCards();
+  }, [cardDeck]);
+
   //When 'result' changes to SUCCESS or FAIL, end the current try
   //by deselecting the selected cards and, if the try failed,
   //flipping them face-down again.
@@ -112,8 +119,7 @@ export default function GameBoard() {
 
   //If the number of selected cards is already at maxSelections, do nothing.
   //Otherwise, start the game timer if this is the first card pressed, then
-  //flip and select the user-pressed card. If the number of selected cards has
-  //reached maxSelections after doing this, compare the selected cards.
+  //flip and select the user-pressed card.
   function onCardPress(cardId: number) {
     if(cardDeck.filter(card => card.isSelected).length === maxSelections)
       return;
@@ -131,11 +137,6 @@ export default function GameBoard() {
     updateCardDeck(prevCardDeck => prevCardDeck.map(prevCard =>
       (prevCard.id === cardId) ? {...prevCard, isSelected: true} : prevCard
     ));
-   
-    if(cardDeck.filter(card => card.isSelected).length < maxSelections)
-      return;
-
-    compareSelectedCards();
   }
 
 
