@@ -40,16 +40,15 @@ export default function GameBoard() {
   }, []);
 
 
+  //When 'cardDeck' changes and the number of selected cards equals maxSelections, compare the selected cards.
   useEffect(() => {
-    if(cardDeck.filter(card => card.isSelected).length < maxSelections)
-      return;
-
-    compareSelectedCards();
+    if(cardDeck.filter(card => card.isSelected).length === maxSelections)
+      compareSelectedCards();
   }, [cardDeck]);
 
-  //When 'result' changes to SUCCESS or FAIL, end the current try
-  //by deselecting the selected cards and, if the try failed,
-  //flipping them face-down again.
+
+  //When 'result' changes to SUCCESS or FAIL, end the current try by deselecting the
+  //selected cards and, if the try failed, flipping them face-down again.
   useEffect(() => {
     if(result === RESULT_PENDING)
       return;
@@ -124,7 +123,7 @@ export default function GameBoard() {
     if(cardDeck.filter(card => card.isSelected).length === maxSelections)
       return;
 
-    if(!cardDeck.every(card => card.isFlipped) && (gameDurationTimerRef.current === 0)) {
+    if(gameDurationTimerRef.current === 0) {
       gameDurationTimerRef.current = setInterval(() => {
         setGameDuration(prevGameDuration => prevGameDuration + 1);
       }, 1000);
