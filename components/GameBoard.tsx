@@ -22,7 +22,6 @@ export default function GameBoard() {
   const [gameDuration, setGameDuration] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
-  const selectedCardIdsRef = useRef<number[]>([]);
   const resultDisplayTimerRef = useRef(0);
   const gameDurationTimerRef = useRef(0);
 
@@ -62,7 +61,7 @@ export default function GameBoard() {
       setResult(RESULT_PENDING);
       setTryCount(prevTryCount => prevTryCount + 1);
 
-      if(cardDeck.every((card) => card.isFlipped)) {
+      if(cardDeck.every(card => card.isFlipped)) {
         clearInterval(gameDurationTimerRef.current);
         gameDurationTimerRef.current = 0;
         setGameOver(true);
@@ -94,7 +93,7 @@ export default function GameBoard() {
 
   //Start a new game by resetting the game state to initial values
   function onNewGameButtonPress() {
-    if(selectedCardIdsRef.current.length === maxSelections)
+    if(cardDeck.filter(card => card.isSelected).length === maxSelections)
       return;
 
     updateCardDeck(createCardDeck());
@@ -102,7 +101,6 @@ export default function GameBoard() {
     setTryCount(0);
     setGameDuration(0);
     setGameOver(false);
-    selectedCardIdsRef.current = [];
 
     clearTimeout(resultDisplayTimerRef.current);
     resultDisplayTimerRef.current = 0;
@@ -117,10 +115,10 @@ export default function GameBoard() {
   //flip and select the user-pressed card. If the number of selected cards has
   //reached maxSelections after doing this, compare the selected cards.
   function onCardPress(cardId: number) {
-    if(selectedCardIdsRef.current.length === maxSelections)
+    if(cardDeck.filter(card => card.isSelected).length === maxSelections)
       return;
 
-    if(!cardDeck.every((card) => card.isFlipped) && (gameDurationTimerRef.current === 0)) {
+    if(!cardDeck.every(card => card.isFlipped) && (gameDurationTimerRef.current === 0)) {
       gameDurationTimerRef.current = setInterval(() => {
         setGameDuration(prevGameDuration => prevGameDuration + 1);
       }, 1000);
@@ -134,24 +132,21 @@ export default function GameBoard() {
       (prevCard.id === cardId) ? {...prevCard, isSelected: true} : prevCard
     ));
    
-    if(selectedCardIdsRef.current.length < maxSelections)
+    if(cardDeck.filter(card => card.isSelected).length < maxSelections)
       return;
 
-    compareSelectedCards(selectedCardIdsRef.current);
+    compareSelectedCards();
   }
 
 
   //Compare the face images of the selected cards. If they match,
   //change 'result' state to SUCCESS; otherwise change it to FAIL.
-  function compareSelectedCards(selectedCardIds: number[]) {
-    const cardsMatch = cardDeck.filter((card) => {
-      if(selectedCardIds.includes(card.id))
-        return true;
-      else
-        return false;
-    }).every((card, cardIndex, selectedCards) => {
-      return card.image === selectedCards[0].image;
-    });
+  function compareSelectedCards() {
+    const cardsMatch = cardDeck.filter(card => 
+      card.isSelected
+    ).every((selectedCard, index, selectedCards) => (
+      selectedCard.image === selectedCards[0].image
+    ));
 
     if(cardsMatch)
       setResult(RESULT_SUCCESS);
