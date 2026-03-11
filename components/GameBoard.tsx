@@ -126,7 +126,10 @@ export default function GameBoard() {
     updateCardDeck(prevCardDeck => prevCardDeck.map(prevCard =>
       (prevCard.id === cardId) ? {...prevCard, isFlipped: true} : prevCard
     ));
-    selectCard(cardId, selectedCardIdsRef.current);
+
+    updateCardDeck(prevCardDeck => prevCardDeck.map(prevCard =>
+      (prevCard.id === cardId) ? {...prevCard, isSelected: true} : prevCard
+    ));
    
     if(selectedCardIdsRef.current.length < maxSelections)
       return;
@@ -151,21 +154,6 @@ export default function GameBoard() {
       setResult(RESULT_SUCCESS);
     else
       setResult(RESULT_FAIL);
-  }
-
-
-  //Add the given card ID to the given selected-card-ID array,
-  //and set the card's isSelected property to true.
-  function selectCard(cardId: number, selectedCardIds: number[]) {
-    selectedCardIds.push(cardId);
-    updateCardDeck(oldCardDeck => 
-      oldCardDeck.map(card => {
-        if(cardId === card.id)
-          return {...card, isSelected: true};
-        else
-          return card;
-      })
-    );
   }
 
 
