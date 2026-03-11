@@ -19,7 +19,7 @@ export default function GameBoard() {
   const [cardDeck, updateCardDeck] = useState(createCardDeck);
   const [result, setResult] = useState(RESULT_PENDING);
   const [tryCount, setTryCount] = useState(0);
-   const [gameDuration, setGameDuration] = useState(0);
+  const [gameDuration, setGameDuration] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
   const selectedCardIdsRef = useRef<number[]>([]);
@@ -49,8 +49,11 @@ export default function GameBoard() {
       return;
 
     resultDisplayTimerRef.current = setTimeout(() => {
-      if(result === RESULT_FAIL) 
-        flipCards(selectedCardIdsRef.current);
+      if(result === RESULT_FAIL) {
+        updateCardDeck(prevCardDeck => prevCardDeck.map(prevCard =>
+          prevCard.isSelected ? {...prevCard, isFlipped: false} : prevCard
+        ));
+      }
 
       deselectCards(selectedCardIdsRef.current);
       setResult(RESULT_PENDING);
@@ -120,7 +123,9 @@ export default function GameBoard() {
       }, 1000);
     }
 
-    flipCards([cardId]);
+    updateCardDeck(prevCardDeck => prevCardDeck.map(prevCard =>
+      (prevCard.id === cardId) ? {...prevCard, isFlipped: true} : prevCard
+    ));
     selectCard(cardId, selectedCardIdsRef.current);
    
     if(selectedCardIdsRef.current.length < maxSelections)
@@ -146,19 +151,6 @@ export default function GameBoard() {
       setResult(RESULT_SUCCESS);
     else
       setResult(RESULT_FAIL);
-  }
-
-
-  //Invert the isFlipped property of the cards referenced by the given card IDs.
-  function flipCards(cardIds: number[]) {
-    updateCardDeck(oldCardDeck => 
-      oldCardDeck.map(card => {
-        if(cardIds.includes(card.id))
-          return {...card, isFlipped: !card.isFlipped};
-        else
-          return card;
-      })
-    );
   }
 
 
