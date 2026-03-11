@@ -53,28 +53,7 @@ export default function GameBoard() {
     if(result === RESULT_PENDING)
       return;
 
-    resultDisplayTimerRef.current = setTimeout(() => {
-      if(result === RESULT_FAIL) {
-        updateCardDeck(prevCardDeck => prevCardDeck.map(prevCard =>
-          prevCard.isSelected ? {...prevCard, isFlipped: false} : prevCard
-        ));
-      }
-
-      updateCardDeck(prevCardDeck => prevCardDeck.map(prevCard =>
-        prevCard.isSelected ? {...prevCard, isSelected: false} : prevCard
-      ));
-
-      setResult(RESULT_PENDING);
-      setTryCount(prevTryCount => prevTryCount + 1);
-
-      if(cardDeck.every(card => card.isFlipped)) {
-        clearInterval(gameDurationTimerRef.current);
-        gameDurationTimerRef.current = 0;
-        setGameOver(true);
-      }
-
-      resultDisplayTimerRef.current = 0;
-    }, resultDisplayDuration);
+    resultDisplayTimerRef.current = setTimeout(() => startNewTry(), resultDisplayDuration);
   }, [result]);
 
 
@@ -152,6 +131,30 @@ export default function GameBoard() {
       setResult(RESULT_SUCCESS);
     else
       setResult(RESULT_FAIL);
+  }
+
+
+  function startNewTry() {
+    if(result === RESULT_FAIL) {
+      updateCardDeck(prevCardDeck => prevCardDeck.map(prevCard =>
+        prevCard.isSelected ? {...prevCard, isFlipped: false} : prevCard
+      ));
+     }
+
+    updateCardDeck(prevCardDeck => prevCardDeck.map(prevCard =>
+      prevCard.isSelected ? {...prevCard, isSelected: false} : prevCard
+    ));
+
+    setResult(RESULT_PENDING);
+    setTryCount(prevTryCount => prevTryCount + 1);
+
+    if(cardDeck.every(card => card.isFlipped)) {
+      clearInterval(gameDurationTimerRef.current);
+      gameDurationTimerRef.current = 0;
+      setGameOver(true);
+    }
+
+    resultDisplayTimerRef.current = 0;
   }
 
 
