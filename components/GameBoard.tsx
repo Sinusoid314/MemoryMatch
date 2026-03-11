@@ -55,7 +55,10 @@ export default function GameBoard() {
         ));
       }
 
-      deselectCards(selectedCardIdsRef.current);
+      updateCardDeck(prevCardDeck => prevCardDeck.map(prevCard =>
+        prevCard.isSelected ? {...prevCard, isSelected: false} : prevCard
+      ));
+
       setResult(RESULT_PENDING);
       setTryCount(prevTryCount => prevTryCount + 1);
 
@@ -154,18 +157,6 @@ export default function GameBoard() {
       setResult(RESULT_SUCCESS);
     else
       setResult(RESULT_FAIL);
-  }
-
-
-  //Set the isSelected property of all the cards referenced in the given
-  //selected-card-ID array to false, and clear the selected-card-ID array.
-  function deselectCards(selectedCardIds: number[]) {
-    updateCardDeck(oldCardDeck =>
-      oldCardDeck.map(card => {
-          return {...card, isSelected: false};
-      })
-    );
-    while(selectedCardIds.length > 0) selectedCardIds.pop();
   }
 
 
